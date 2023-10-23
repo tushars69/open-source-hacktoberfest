@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+// Define a mapping of digits to their corresponding letters on a phone keypad
+const string keypad[] = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+// Recursive function to generate all combinations
+void generateCombinations(string digits, string current, int index, vector<string>& result) {
+    // If we've processed all digits, add the current combination to the result
+    if (index == digits.length()) {
+        result.push_back(current);
+        return;
+    }
+
+    // Get the letters associated with the current digit
+    string letters = keypad[digits[index] - '0'];
+
+    // Iterate through the letters and make recursive calls for each letter
+    for (char letter : letters) {
+        generateCombinations(digits, current + letter, index + 1, result);
+    }
+}
+
+// Function to initiate the combination generation
+vector<string> letterCombinations(string digits) {
+    vector<string> result;
+    if (digits.empty()) {
+        return result;
+    }
+
+    generateCombinations(digits, "", 0, result);
+    return result;
+}
+
+int main() {
+    string digits = "23"; // Example input
+
+    vector<string> combinations = letterCombinations(digits);
+
+    // Display the generated combinations
+    for (string combination : combinations) {
+        cout << combination << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
